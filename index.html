@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto-Página web </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #2c8cd1 0%, #162d3e 100%);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            text-shadow: 0 0 20px #00d9ff, 0 0 40px #00d9ff;
+            margin-bottom: 0.5rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00d9ff, 0 0 40px #00d9ff; }
+            to { text-shadow: 0 0 30px #00d9ff, 0 0 60px #00d9ff, 0 0 80px #00d9ff; }
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #00d9ff;
+            text-shadow: 0 0 10px #00d9ff;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            min-height: 400px;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%);
+        }
+
+        .item h3 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .rarity-legendary { border-left: 4px solid #ff8c00; }
+        .rarity-epic { border-left: 4px solid #9c27b0; }
+        .rarity-rare { border-left: 4px solid #2196f3; }
+        .rarity-uncommon { border-left: 4px solid #4caf50; }
+        .rarity-common { border-left: 4px solid #9e9e9e; }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .tutorial-step {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            border-left: 5px solid #00d9ff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tutorial-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #00d9ff;
+            color: #1a1a2e;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .datasheet-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(33, 150, 243, 0.3);
+        }
+
+        .datasheet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.5);
+        }
+        .map-info {
+            background: linear-gradient(135deg, rgba(0,217,255,0.2) 0%, rgba(118,75,162,0.2) 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Proyecto página web - Guía de Fortnite</h1>
+        <p style="font-size: 1.2rem;">Nombres: Luis Novillo - Arthur Beltrán - José Velásquez
+        </p>
+    </div>
+
+    <div class="nav">
+    <button class="nav-btn active" onclick="showSection('estadisticas', this)">📊 Estadísticas</button>
+    <button class="nav-btn" onclick="showSection('armas', this)">🔫 Armas</button>
+    <button class="nav-btn" onclick="showSection('tutorial', this)">📚 Tutorial</button>
+    <button class="nav-btn" onclick="showSection('mapas', this)">💻Servidor Web</button>
+    <button class="nav-btn" onclick="showSection('mainboard', this)">⏹️Mainboard</button>
+    <button class="nav-btn" onclick="showSection('bios', this)">📱BIOS</button>
+</div>
+
+    <div class="container">
+        <!-- ESTADÍSTICAS -->
+        <div id="estadisticas" class="section active">
+            <div class="card">
+                <h2>📊 Estadísticas de Fortnite</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <span class="stat-number">+500 millones</span>
+                        <span>Jugadores Registrados</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">44 millones</span>
+                        <span>Pico de jugadores simultaneos</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">US$ 40 mil millones</span>
+                        <span>Ingresos totales hasta la fecha</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎯 Modos de Juego Principales</h2>
+                <div class="grid">
+                    <div class="item">
+                        <h3>Battle Royale</h3>
+                        <p>100 jugadores compiten por ser el último en pie. Solo o en equipos de hasta 4 jugadores.</p><br>
+                        <img src="img/battleroyale.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                    </div>
+                    <div class="item">
+                        <h3>Creativo</h3>
+                        <p>Crea tus propios mapas o juega creaciones de la comunidad.</p><br>
+                        <img src="img/creativo.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Servdiro Web -->
+        <div id="mapas" class="section">
+            <div class="card">
+                <h2>💻  Levantar servidor web</h2>
+                <div class="grid">
+                    <div class="item">
+                        <h3>Evidencia 1</h3>
+                        <img src="img/evidencia1.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                        <div class="map-info">
+                            <strong>Descripción:</strong> Se abre el panel de control de XAMPP y se presiona el botón “Start” en el módulo Apache para iniciar el servidor web local.<br>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3>Evidencia 2</h3>
+                        <img src="img/evidencia2.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                        <div class="map-info">
+                            <strong>Descripción:</strong> Se crea una carpeta dentro de htdocs llamada "miweb" y dentro de pone el codigo del programa en archivo index.html<br>
+                            
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3>Evidencia 3</h3>
+                        <img src="img/evidencia3.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                        <div class="map-info">
+                            <strong>Descprición:</strong> Se abre el navegador web y se escribe la dirección http://localhost/miweb para acceder a la página desde el servidor local.<br>
+                            
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3>Evidencia 4</h3>
+                        <img src="img/evidencia4.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                        <div class="map-info">
+                            <strong>Descprición:</strong> Se muestra la página web ejecutándose correctamente en el navegador, confirmando que el servidor Apache está funcionando y la web carga desde localhost.<br>
+                            
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>        
+
+        <!-- BIOS -->
+        <div id="bios" class="section">
+            <div class="card">
+                <h2> 📱BIOS</h2>
+                <div class="grid">
+                    <div class="item">
+                        <h3>Captura de la BIOS</h3>
+                        <img src="img/BIOS.png" alt="Evidencia 1" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                        <br>
+                        <p>Nota. Foto de la BIOS de una laptop marca hp victus</p>
+                    </div>
+                    <div class="item">
+                        <h3>- Parámetro 1</h3>
+                        <p><strong>Secure boot</strong><br><br>
+                        <p>Es un estándar de seguridad que tiene la función de asegurarse de que al iniciar la PC sólo se ejecute software de arranque que sea de confianza, es decir, que esté firmado criptográficamente con claves aprobadas.</p><br>
+                        <a target="_blank" href="https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-secure-boot" class="datasheet-btn">
+                            📄FUENTE</a>
+                        </div>
+                    <div class="item">
+                        <h3>- Parámetro 2</h3>
+                        <p><strong>Platform Key</strong><br><br>
+                        <p>Es un componente esencial dentro del Secure Boot, su función es controlar quién puede modificar o añadir otras claves de seguriad en la BIOS. Es como una llave maestra que protege toda las firmas del arranque seguro.</p><br>
+                        <a target="_blank" href="https://www.trentonsystems.com/en-us/resource-hub/blog/what-is-secure-boot?utm_source/en-us/w" class="datasheet-btn">
+                            📄FUENTE</a>
+                    </div>
+                    <div class="item">
+                        <h3>- Parámetro 3</h3>
+                        <p><strong>Network boot</strong><br><br>
+                        <p>Es el proceso mediante el cual un equipo inicia su arranque no desde un disco local (o medio físico) sino desde un servidor de la red. Es muy usado en escuelas o empresas para instalar o mantener varios equipos al mismo tiempo.</p><br>
+                        <a target="_blank" href="https://en.wikipedia.org/wiki/Network_booting?utm_source" class="datasheet-btn">
+                            📄FUENTE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARMAS -->
+        <div id="armas" class="section">
+            <div class="card">
+                <h2>🔫 Principales armas</h2>
+                <div class="grid">
+                    <div class="item rarity-legendary">
+                        <h3>SCAR (Rifle de Asalto)</h3>
+                        <p><strong>Daño:</strong> 35-37<br>
+                        <strong>Cadencia:</strong> Rápida<br>
+                        <strong>Rareza:</strong> Legendaria<br>
+                        <strong>Tipo:</strong> Versátil y equilibrada</p><br>
+                        <img src="img/scar.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                    </div>
+                    <div class="item rarity-epic">
+                        <h3>PUMP (Escopeta)</h3>
+                        <p><strong>Daño:</strong> 100-120<br>
+                        <strong>Cadencia:</strong> Lenta<br>
+                        <strong>Rareza:</strong> Épica<br>
+                        <strong>Tipo:</strong> Alto daño corto alcance</p><br>
+                        <img src="img/pump.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                    </div>
+                    <div class="item rarity-rare">
+                        <h3>SMG (Subfusil)</h3>
+                        <p><strong>Daño:</strong> 19-22<br>
+                        <strong>Cadencia:</strong> Muy rápida<br>
+                        <strong>Rareza:</strong> Rara<br>
+                        <strong>Tipo:</strong> Ideal para combate cercano</p><br>
+                         <img src="img/subfusil.png" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                    </div>
+                </div>
+            </div>
+        </div>    
+        
+
+        <!-- MAINBOARD -->
+        <div id="mainboard" class="section">
+            <div class="card">
+                <h2> ⏹️ Mainboard</h2>
+                <div class="grid">
+                    <div class="">
+                        <h3>🛡️ Modelo de mainboard</h3><br>
+
+                        <img src="img/modelomainboard.png" alt="Evidencia 1" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                    </div>
+                    <div class="item">
+                        <h3>🔵 Datasheet</h3>
+                        <a target="_blank" href="https://drive.google.com/file/d/1PG_dx58LehbjSG-XmTZ8eK_MRXXL-P8J/view" class="datasheet-btn">
+                            📄DATASHEET</a>
+                    </div>
+                    <div class="item">
+                        <h3>- Caracteristica 1</h3>
+                        <p><strong>Controlador VR12.6 ISL95826: Regulación Digital de Voltaje para CPU</strong><br><br>
+                        <p>El ISL95826, presente en la placa lógica Apple 820-3476-A, pertenece a la misma familia de controladores VR12.6 de Intersil/Renesas que el ISL95813, por lo que comparten arquitectura y funcionamiento. Su función principal es regular con precisión el voltaje del procesador mediante el bus SVID, convirtiendo entradas de 4.6 a 25 V en un voltaje estable para el núcleo del CPU. Utilizan la tecnología R3 Modulator, que combina control PWM e histerético para reaccionar rápidamente a cambios de carga, incorporando protección térmica, detección de corriente y modos de ahorro de energía. Ajustan dinámicamente la frecuencia y conmutación de los MOSFETs según la demanda, y en cargas bajas operan en modo DCM para mejorar la eficiencia, permitiendo al CPU controlar el voltaje en tiempo real con alta precisión y estabilidad.</p><br>
+                        <a target="_blank" href="https://www.farnell.com/datasheets/1763087.pdf" class="datasheet-btn">
+                            📄FUENTE</a>
+                    </div>
+                    <div class="item">
+                        <h3>- Caracteristica 2</h3>
+                        <p><strong>Amplificador de Audio MAX98300: Alta Eficiencia y Calidad en Clase D</strong><br><br>
+                        <p>El MAX98300 es un amplificador de audio mono Clase D que entrega hasta 2.6 W con alta eficiencia y bajo consumo, combinando el rendimiento energético de un Clase D con la calidad de un Clase AB. Utiliza modulación de espectro ensanchado y control de conmutación para minimizar interferencias, permitiendo operar sin filtros externos. Ofrece ganancias seleccionables y cuenta con protecciones contra sobrecorriente, sobretemperatura y ruidos de encendido/apagado. En la placa lógica, amplifica la señal proveniente del códec principal y la envía a los parlantes internos, logrando sonido claro, potente y eficiente.</p><br>
+                        <a target="_blank" href="https://www.analog.com/media/en/technical-documentation/data-sheets/max98300.pdf " class="datasheet-btn">
+                            📄FUENTE</a>
+                    </div>
+                    <div class="item">
+                        <h3># Caracteristica 3</h3>
+                        <p><strong>Controlador de Carga ISL6251: Gestión Eficiente y Segura de Energía para Baterías</strong><br><br>
+                        <p>El ISL6251 es un controlador de carga para baterías de ion de litio, polímero de litio y níquel metal hidruro, usado en notebooks y equipos portátiles. Emplea una topología buck sincrónica, que reemplaza el diodo por un MOSFET para lograr una conversión de energía más eficiente entre el adaptador y la batería. Regula con precisión la corriente y el voltaje de carga mediante los pines CHLIM, VADJ y CELLS, adaptándose a baterías de 2, 3 o 4 celdas. Opera en modo de corriente constante hasta alcanzar el voltaje programado, pasando luego a voltaje constante. Además, incorpora protección térmica, detección del adaptador y limitación de corriente de entrada, asegurando una carga equilibrada, segura y eficiente tanto para el sistema como para la batería.</p><br>
+                        <a target="_blank" href="https://www.alldatasheet.com/datasheet-pdf/pdf/1045221/RENESAS/ISL6251.html " class="datasheet-btn">
+                            📄FUENTE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TUTORIAL -->
+        <div id="tutorial" class="section">
+            <div class="card">
+                <h2>📚 Tutorial para Principiantes</h2>
+                
+                <div class="tutorial-step" data-step="1">
+                    <h3>🎮 Descarga e Instalación</h3>
+                    <p>Descarga Fortnite desde Epic Games Store (PC), PlayStation Store, Xbox Store o App Store. El juego es gratuito. Crea una cuenta de Epic Games y vincula tu plataforma preferida.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="2">
+                    <h3>🎯 Entendiendo el Objetivo</h3>
+                    <p>En Battle Royale, 100 jugadores saltan de un autobús volador y luchan hasta que solo quede uno. La tormenta va reduciendo el área jugable, forzando encuentros. Tu objetivo: ser el último en pie.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="3">
+                    <h3>🪂 El Aterrizaje Perfecto</h3>
+                    <p>Despliega tu planeador estratégicamente. Aterriza en ubicaciones con buen botín pero no demasiado populares al inicio. Edificios grandes = más cofres. Aprende los puntos de interés del mapa.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="4">
+                    <h3>🎒 Recolecta Botín</h3>
+                    <p>Busca cofres (sonido dorado brillante), suministros y armas. Prioriza: rifle de asalto, escopeta, curación y escudos. Sistema de rareza: Gris < Verde < Azul < Morado < Naranja < Dorado.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="5">
+                    <h3>🔨 Recolección de Materiales</h3>
+                    <p>Usa tu pico para recolectar madera (árboles), piedra (rocas) y metal (vehículos/estructuras). Materiales = construcciones defensivas y ofensivas. La madera se construye rápido pero es débil; el metal es lento pero resistente.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="6">
+                    <h3>🏗️ Construcción Básica</h3>
+                    <p>Presiona el botón de construcción y selecciona: Muro, Piso, Rampa o Pirámide. Construye rampas para altura, muros para protección. La altura = ventaja en combate. Practica en Creative.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="7">
+                    <h3>⚔️ Combate Inteligente</h3>
+                    <p>Apunta a la cabeza para daño crítico. Usa cobertura constantemente. Combinación letal: escopeta + construcción. No te quedes quieto. Escucha pasos enemigos. Practica tu puntería en Team Rumble.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="8">
+                    <h3>🌪️ La Tormenta</h3>
+                    <p>Mira el mapa: círculo blanco = zona segura, área púrpura = tormenta. La tormenta causa daño creciente. Planifica tu ruta hacia la zona segura con tiempo. Usa vehículos si estás lejos.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="9">
+                    <h3>💊 Gestión de Salud</h3>
+                    <p>Vida máxima: 100. Escudo máximo: 100. Prioriza escudo antes de combate. Cúrate tras peleas. Lleva siempre curación. Los escudos pequeños son más rápidos que los grandes.</p>
+                </div>
+
+                <div class="tutorial-step" data-step="10">
+                    <h3>🏆 Consejos Pro</h3>
+                    <p>• Juega con auriculares (audio 3D crucial)<br>
+                    • Ajusta sensibilidad a tu comodidad<br>
+                    • Practica ediciones rápidas<br>
+                    • Aprende de cada muerte<br>
+                    • Juega con amigos para mejorar<br>
+                    • No tengas miedo de enfrentamientos<br>
+                    • Mira streamers profesionales</p>
+                </div>
+            </div>
+
+    <script>
+    function showSection(sectionId, button) {
+        // Ocultar todas las secciones
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Mostrar la sección seleccionada
+        document.getElementById(sectionId).classList.add('active');
+        
+        // Remover active de todos los botones
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Agregar active al botón clickeado
+        button.classList.add('active');
+        
+        // Scroll suave hacia arriba
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
+</body>
+</html>
